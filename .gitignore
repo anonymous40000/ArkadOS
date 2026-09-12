@@ -1,0 +1,10 @@
+/target/
+*.bin
+*.img
+*.iso
+*.o
+*.elf
+.vscode/
+.idea/
+*.swp
+.DS_Store
