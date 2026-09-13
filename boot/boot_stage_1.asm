@@ -1,6 +1,10 @@
 BITS 16 ; переход в реал мод для загрузки 
 ORG 0x7C00 ; начинаем с этого адреса
 
+%ifndef STAGE2_SECTORS
+%define STAGE2_SECTORS 6
+%endif
+
 start:
     cli ; запрещаем прерывания
 
@@ -11,9 +15,9 @@ start:
     mov sp, 0x7C00 ; начало стека на 0x7C00
 
     sti
-    ; тестовая точка входа для чтения селекторов
+    ; читаем стейдж2 (столько секторов, сколько он реально занимает)
     mov ah, 0x02
-    mov al, 1
+    mov al, STAGE2_SECTORS
     mov ch, 0
     mov cl, 2
     mov dh, 0
@@ -27,7 +31,7 @@ start:
     
     jc read_error
 
-    cmp al, 1
+    cmp al, STAGE2_SECTORS
     jne $
 
     jmp 0x8000
