@@ -20,6 +20,14 @@ gdt_data: ; дескриптор данных
     db 0xCF
     db 0x00
 
+gdt_code64: ; дескриптор 64-битного кода (для long mode)
+    dw 0x0000 ; limit игнорируется в long mode
+    dw 0x0000 ; base low
+    db 0x00   ; base mid
+    db 0x9A   ; present, ring0, code, exec/read — как у обычного кода
+    db 0x20   ; флаги: L=1 (это и есть маркер 64-битного сегмента)
+    db 0x00   ; base high
+
 gdt_end: ; метка конца
 
 gdt_descriptor: ; размер таблицы и адрес начала 
@@ -28,3 +36,4 @@ gdt_descriptor: ; размер таблицы и адрес начала
 
 CODE_SEG equ gdt_code - gdt_start ;константы для селекторов сегментов кода и данных
 DATA_SEG equ gdt_data - gdt_start
+CODE64_SEG equ gdt_code64 - gdt_start
