@@ -20,7 +20,7 @@ mov es, ax
 mov fs, ax
 mov gs, ax
 mov ss, ax 
-mov esp, 0x90000 ; настраиваем указатель стека
+mov esp, 0x900000 ; настраиваем указатель стека
 
 mov esi, msg           ; адрес нашей строки
 mov edi, 0xB8000       ; адрес видеопамяти
