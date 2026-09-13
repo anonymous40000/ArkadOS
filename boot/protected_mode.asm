@@ -21,26 +21,3 @@ mov fs, ax
 mov gs, ax
 mov ss, ax 
 mov esp, 0x900000 ; настраиваем указатель стека
-
-mov esi, msg           ; адрес нашей строки
-mov edi, 0xB8000       ; адрес видеопамяти
-mov bh, 0x0F           ; белый цвет на черном фоне
-
-print_loop:
-    lodsb             
-    
-    test al, al        
-    jz print_done      ; проверяем конец строки и выходим если да
-    
-    mov [edi], al      ; записываем символ в видеопамять
-    mov [edi+1], bh    ; записываем цвет рядом
-    add edi, 2         ; переходим к следующей позиции
-    
-    jmp print_loop     ; повторяем цикл
-
-print_done:
-    jmp $
-
-%include "gdt_table.asm"
-
-msg db "ARKADOS PROTECTED!", 0

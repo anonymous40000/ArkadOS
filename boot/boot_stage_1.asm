@@ -10,10 +10,31 @@ start:
     mov ss, ax
     mov sp, 0x7C00 ; начало стека на 0x7C00
 
-    ; сразу переходим в 32-битный режим
-    ; (16-битный вывод через int 0x10 убрали, чтобы влезть в 512 байт)
-    %include "protected_mode.asm" 
-        
+    sti
+    ; тестовая точка входа для чтения селекторов
+    mov ah, 0x02
+    mov al, 1
+    mov ch, 0
+    mov cl, 2
+    mov dh, 0
+    mov dl, 0
+    
+    mov bx, 0x8000
+
+    int 0x13
+
+    cli
+    
+    jc read_error
+
+    cmp al, 1
+    jne $
+
+    jmp 0x8000
+
+read_error:
+    jmp $
+
 times 510-($-$$) db 0
 ; $$ = адрес начала файла (0x7C00)
 ; $  = текущий адрес (сколько байт мы уже написали)
