@@ -20,6 +20,14 @@ gdt_data: ; дескриптор данных
     db 0xCF
     db 0x00
 
+gdt_code64:
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 0x9A
+    db 0xAF
+    db 0x00
+
 gdt_end: ; метка конца
 
 gdt_descriptor: ; размер таблицы и адрес начала 
@@ -28,3 +36,4 @@ gdt_descriptor: ; размер таблицы и адрес начала
 
 CODE_SEG equ gdt_code - gdt_start ;константы для селекторов сегментов кода и данных
 DATA_SEG equ gdt_data - gdt_start
+CODE64_SEG equ gdt_code64 - gdt_start
